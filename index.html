@@ -238,14 +238,12 @@ section.block{
    FOTOS
    ============================================================ */
 .photo-slot{
-  margin:0 0 1rem;
+  margin:0 0 2rem;
   aspect-ratio:4/3;
   border-radius:14px;
   background:linear-gradient(135deg,rgba(107,70,193,.15),rgba(196,181,253,.06));
   border:1px dashed rgba(196,181,253,.35);
   display:flex;align-items:center;justify-content:center;
-  color:var(--text-dim);
-  font-size:.8rem;
   overflow:hidden;position:relative;
 }
 .photo-slot img{
@@ -253,15 +251,8 @@ section.block{
   object-fit:cover;border-radius:14px;
   display:block;
 }
-.photo-slot:not(.has-image)::before{
-  content:'📷 foto';
-  position:absolute;
-  font-size:.85rem;
-  opacity:.5;
-  letter-spacing:1px;
-}
+.photo-slot:not(.has-image){display:none}
 .photo-slot.has-image{border-color:transparent;border-style:solid}
-.photo-slot.has-image::before{display:none}
 
 /* ============================================================
    OBJETOS
@@ -548,7 +539,7 @@ section.block{
 }
 
 /* ============================================================
-   CONFETI (pequeño estallido al abrir el sobre)
+   CONFETI
    ============================================================ */
 .confetti{
   position:fixed;inset:0;
@@ -594,17 +585,13 @@ section.block{
 <div class="particles" id="particles" aria-hidden="true"></div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
 
-<!-- ============================================================
-     SPLASH
-     ============================================================ -->
+<!-- SPLASH -->
 <section id="splash" class="screen splash active">
   <p class="splash-msg">Tengo algo que preparé para ti,<br>mi niña preciosa…</p>
   <button id="open-surprise" class="btn-primary">Abrir mi sorpresa 💙</button>
 </section>
 
-<!-- ============================================================
-     EXPERIENCIA ANIVERSARIO
-     ============================================================ -->
+<!-- EXPERIENCIA -->
 <div id="experience" class="experience">
 
   <!-- HERO -->
@@ -614,7 +601,7 @@ section.block{
     <p class="hero-sub">Dos años desde que decidimos empezar esto juntos.</p>
   </section>
 
-  <!-- SECCIÓN 1: NUESTRA HISTORIA -->
+  <!-- SECCIÓN 1: HISTORIA -->
   <section class="block">
     <h2 class="section-title">Nuestra historia</h2>
     <p class="section-subtitle">Cómo empezó todo, y hasta dónde llegamos.</p>
@@ -628,43 +615,43 @@ section.block{
     <div class="timeline">
       <div class="tl-item">
         <div class="tl-date">Secundaria</div>
-        <h3 class="tl-title">Cuando apenas nos conocíamos</h3>
-        <p class="tl-text">Nos conocíamos desde secundaria, pero apenas hablábamos. Éramos dos personas que compartían pasillos y aulas sin saber todo lo que venía después. Si me hubiesen dicho entonces que aquella muchachita terminaría siendo la persona más importante de mi vida, probablemente no me lo habría creído. xd</p>
+        <h3 class="tl-title">Dos desconocidos en el mismo salón</h3>
+        <p class="tl-text">Nos veíamos todos los días, compartíamos pasillos y clases, pero apenas cruzaba palabra contigo. Eramos dos mundos distintos en el mismo lugar. Si en ese entonces alguien me hubiera dicho todo lo que ibas a significar para mí, me habría reído. xd</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">11.º grado</div>
-        <h3 class="tl-title">Nelson nos sentó juntos</h3>
-        <p class="tl-text">Y entonces llegó 11.º grado, y Nelson nos sentó juntos en Matemáticas. No lo sabíamos, pero ahí empezó realmente todo. Pasamos de ser compañeros de aula a mejores amigos, de esos que prácticamente no pueden estar separados. Uña y carne.</p>
+        <h3 class="tl-title">El profe Nelson y su gran jugada</h3>
+        <p class="tl-text">Ahí fue cuando el destino (o Nelson en Matemáticas) nos sentó juntos. Pasamos de ser simples compañeros a hablar sin parar. Sin darnos cuenta, te volviste mi mejor amiga, esa persona con la que quería compartir todo. Uña y carne.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">16 años</div>
-        <h3 class="tl-title">La mejor amistad</h3>
-        <p class="tl-text">Teníamos 16 años cuando empezamos a hablar de verdad. Y sin darnos cuenta, nos volvimos inseparables. Los mensajes a cualquier hora, las risas por tonterías, la confianza que se fue construyendo sola.</p>
+        <h3 class="tl-title">La confianza que lo cambió todo</h3>
+        <p class="tl-text">Teníamos 16 años. Eramos inseparables de verdad. Las risas, las conversaciones largas, la complicidad... Empezamos a construir algo que ni yo mismo sabía nombrar en ese momento, pero que se sentía increíble.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">Servicio militar</div>
-        <h3 class="tl-title">Cuando nos perdimos un poco</h3>
-        <p class="tl-text">Luego entré al servicio militar, y por un tiempo la comunicación se enfrió. No desaparecimos, pero sí nos extrañamos en silencio. Y aunque en ese momento no lo sabía, esa pausa me iba a enseñar lo mucho que significabas para mí.</p>
+        <h3 class="tl-title">El silencio que me hizo ver la verdad</h3>
+        <p class="tl-text">Cuando entré al servicio militar, la comunicación se enfrió. No fue de mala fe, simplemente la vida nos separó un poco. Pero en ese silencio me di cuenta de lo mucho que extrañaba tus mensajes y de que, para mí, ya no eras solo una amiga.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">Universidad</div>
         <h3 class="tl-title">El reencuentro</h3>
-        <p class="tl-text">Cuando llegamos a la universidad volvimos a hablar con la misma frecuencia de antes. Recuperé la cercanía, y con ella me di cuenta de que estaba enamorado de ti. De ti, mi mejor amiga, la persona con la que llevaba años hablando.</p>
+        <p class="tl-text">Volvimos a hablar y la conexión seguía intacta. Fue como si el tiempo no hubiera pasado. Ahí terminé de confirmar lo que mi corazón ya sabía: estaba perdidamente enamorado de ti.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">14 de noviembre</div>
-        <h3 class="tl-title">Te confesé lo que sentía</h3>
-        <p class="tl-text">Nunca olvidaré todos los nervios, pero lo decidido que estaba a declararte lo que sentía por ti el 14 de noviembre del 2024. Nuestro inicio. ♥︎♡</p>
+        <h3 class="tl-title">Nuestro inicio</h3>
+        <p class="tl-text">Ese día me armé de valor. Los nervios me comían por dentro, pero estaba decidido a decirte todo lo que sentía. Te confesé mi amor. Y aunque no fue un camino de rosas desde el principio, fue el día en que todo empezó. ♥︎♡</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">22 de noviembre</div>
         <h3 class="tl-title">Nuestro aniversario</h3>
-        <p class="tl-text">Elegimos el 22 de noviembre como nuestro aniversario porque fue el día en que pudimos encontrarnos. Sé que nuestro comienzo no fue precisamente sencillo ni convencional, y que hubo circunstancias y momentos complicados, pero quiero que tengas algo muy claro: no me arrepiento de nada. Si para estar juntos hubiese tenido que ser así, lo repetiría infinitamente.</p>
+        <p class="tl-text">Elegimos esta fecha porque fue el día en que pudimos estar juntos de verdad. No cambiaría nada de lo que hemos vivido, ni los momentos complicados, porque todo nos trajo hasta aquí. Si tuviera que volver a empezar, lo haría mil veces contigo.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">Hoy</div>
-        <h3 class="tl-title">A distancia, pero contigo</h3>
-        <p class="tl-text">Ahora nos toca afrontar algo diferente, algo que ninguno de los dos quería: tener que querernos desde tan lejos. No voy a decirte que la distancia es o será fácil, porque ambos sabemos que no lo es. Pero tampoco quiero que pensemos que esto es el final. No será eterno, mi vida.</p>
+        <h3 class="tl-title">A distancia, pero más cerca que nunca</h3>
+        <p class="tl-text">Ahora estás en España y la distancia no es fácil para ninguno de los dos. Extraño tenerte cerca, pero sé que esto no es el final. Es solo una prueba más de lo fuerte que es lo nuestro.</p>
       </div>
     </div>
   </section>
@@ -694,7 +681,7 @@ section.block{
       <button class="object-card"
               data-emoji="🧿"
               data-title="Nudo de bruja"
-              data-text="Te lo di antes de que viajaras. Un nudo que, según dicen, protege. Y yo quise que te protegiera a ti, en un lugar donde no puedo hacerlo yo todos los días.">
+              data-text="Te lo di meses después de empezar nuestra complicidad. Un nudo que, según dicen, protege. Y yo quise que te protegiera a ti, en un lugar donde no puedo hacerlo yo todos los días.">
         <span class="object-emoji">🧿</span>
         <span class="object-name">Colgante nudo de bruja</span>
       </button>
@@ -723,12 +710,12 @@ section.block{
     <p class="section-subtitle">Sin filtros. Tal cual.</p>
 
     <div class="messages-list">
-      <div class="message-item">Abrazarte y no tener que soltarte después. Sin despedidas metidas en medio.</div>
-      <div class="message-item">Dormir a tu lado. Y despertarme contigo. No dormir, dormir contigo, que no es lo mismo.</div>
-      <div class="message-item">Molestarte por cualquier tontería, solo para verte reír.</div>
-      <div class="message-item">Escuchar tu voz en persona y verte sonreír, sin que haya una pantalla de por medio.</div>
-      <div class="message-item">Disfrutar hasta de las cosas más pequeñas que antes parecían tan normales, y que ahora extraño muchísimo.</div>
-      <div class="message-item">Estar contigo ahora mismo. Preferiría mil veces eso a cualquier otra cosa.</div>
+      <div class="message-item">Abrir los ojos y tenerte ahí, sin necesidad de encender el teléfono para saber de ti.</div>
+      <div class="message-item">Quedarme dormido contigo. Y despertarme contigo. Eso que parece tan simple, pero que ahora vale oro.</div>
+      <div class="message-item">Poder abrazarte y quedarme ahí el tiempo que haga falta, sin despedidas de por medio.</div>
+      <div class="message-item">Molestarte con tonterías solo para escuchar cómo te ríes y ver tu cara de fastidio cuando lo hago.</div>
+      <div class="message-item">Tenerte enfrente para escuchar tu voz y verte sonreír sin que haya una pantalla en medio.</div>
+      <div class="message-item">Disfrutar de lo cotidiano contigo. Porque hasta las cosas más aburridas se volvían especiales a tu lado.</div>
     </div>
   </section>
 
@@ -744,17 +731,14 @@ section.block{
 
     <div class="letter" id="letter">
       <p>Mi Lala,</p>
-      <p>Si hace unos cuantos años me hubiesen dicho que aquella muchachita con la que apenas hablaba en secundaria terminaría convirtiéndose en la persona más importante de mi vida, probablemente no me lo habría creído. xd</p>
-      <p>Es curioso pensar en cómo empezó todo. Nos conocíamos desde secundaria, pero no fue hasta 11.º grado, cuando Nelson nos sentó juntos, que realmente comenzamos a conocernos. Y mira hasta dónde llegamos. Pasamos de ser compañeros de aula a convertirnos en mejores amigos, de esos que prácticamente no podían estar separados. Uña y carne.</p>
-      <p>Nunca olvidaré todos los nervios, pero lo decidido que estaba a declararte lo que sentía por ti el 14 de noviembre del 2024. Nuestro inicio. ♥︎♡</p>
-      <p>Sé que nuestro comienzo no fue precisamente sencillo ni convencional, y que hubo circunstancias y momentos complicados. Pero quiero que tengas algo muy claro: no me arrepiento de nada. Si para estar juntos hubiese tenido que ser así, lo repetiría infinitamente. Porque eres tú la persona de la que me estoy enamorando, alguien a quien llevo muchísimo tiempo conociendo y quiero mantener en mi vida.</p>
-      <p>Hemos tenido nuestros altos y bajos, hemos pasado por momentos buenos y otros no tanto, pero también hemos compartido muchísimas cosas bonitas que no cambiaría por nada.</p>
-      <p>Y ahora nos toca afrontar algo diferente, algo que ninguno de los dos quería, que es tener que querernos desde tan lejos. Créeme que preferiría mil veces estar contigo ahora mismo, poder abrazarte, dormir a tu lado, despertarme contigo, molestarte por cualquier tontería y disfrutar hasta de las cosas más pequeñas que antes parecían tan normales y que ahora extraño muchísimo.</p>
-      <p>No voy a decirte que la distancia es o será fácil, porque ambos sabemos que no lo es. Pero tampoco quiero que pensemos que esto es el final de nuestra historia. No será eterno, mi vida. Nos volveremos a encontrar, volveremos a estar juntos y recuperaremos todo el tiempo que ahora estamos perdiendo.</p>
-      <p>Nos queda muchísimo por vivir, muchísimas experiencias por compartir y, si de mí depende, una vida entera a tu lado.</p>
-      <p>Gracias por haber sido mi mejor amiga antes de ser mi novia, por todo lo que me has dado, por los recuerdos que hemos creado y por seguir formando parte de mi vida.</p>
-      <p>Si pudiera volver a aquel aula y sentarme otra vez a tu lado sin saber todo lo que vendría después, lo haría sin pensarlo. Porque terminar conociéndote de esta manera ha sido lo más maravilloso que me ha pasado.</p>
-      <p>Te amo muchísimo, mi niña preciosa.</p>
+      <p>Hoy cumplimos dos años, y me puse a pensar en todas las vueltas que da la vida. Si a ese chamaquito de secundaria que apenas hablaba contigo me le hubieran dicho que hoy estaría escribiéndote esto, con todo lo que siento, probablemente se habría muerto de risa. xd</p>
+      <p>Pero la vida es curiosa. Nos puso en el mismo salón, con Nelson sentándonos juntos en Matemáticas, y ahí empezó nuestra historia. Pasamos de ser dos desconocidos a ser uña y carne. Te volviste mi mejor amiga, mi confidente, mi lugar seguro.</p>
+      <p>Luego vino el servicio militar, el silencio, la universidad y ese reencuentro que me abrió los ojos. Fue ahí cuando me di cuenta de que todo lo que sentía por ti iba mucho más allá de una amistad. Y llegó el 14 de noviembre de 2024. Los nervios me comían vivo, pero no había vuelta atrás. Tenía que decirte la verdad.</p>
+      <p>Sé de sobra que nuestro comienzo no fue fácil, que hubo piedras en el camino y momentos que nos pusieron a prueba. Pero, mi vida, no me arrepiento de absolutamente nada. Si volviera a nacer, volvería a elegir este camino si eso significaba terminar a tu lado. Eres la persona con la que quiero estar.</p>
+      <p>Ahora la vida nos tiene separados por un océano. Y no te voy a mentir diciéndote que esto es un juego de niños, porque a ambos nos duele la distancia. Me duele no tenerte cerca para abrazarte cuando estás triste, para molestarte cuando estás aburrida o simplemente para dormir a tu lado.</p>
+      <p>Pero la distancia es geográfica, no del corazón. Esto no es un punto final para nosotros, es solo un capítulo complicado que estamos escribiendo. Y te prometo que nos vamos a volver a encontrar, y que cuando eso pase, vamos a recuperar cada segundo perdido.</p>
+      <p>Gracias por haber sido mi mejor amiga antes que cualquier otra cosa. Gracias por los recuerdos, por la paciencia, por el cariño y por dejarme formar parte de tu vida. Si pudiera volver al pasado, me sentaría otra vez en aquel pupitre a tu lado sin dudarlo un segundo, porque conocerte ha sido lo mejor que me ha pasado.</p>
+      <p>Te amo muchísimo, mi niña preciosa. Feliz aniversario.</p>
       <p class="signature">Tu niño. 💙</p>
     </div>
   </section>
@@ -770,10 +754,10 @@ section.block{
       <div class="meet-spark"></div>
     </div>
 
-    <p class="future-quote">«No será eterno, mi vida.<br>Nos volveremos a encontrar, volveremos a estar juntos<br>y recuperaremos todo el tiempo que ahora estamos perdiendo».</p>
+    <p class="future-quote">«No será para siempre, mi vida.<br>Nos volveremos a encontrar, volveremos a estar juntos<br>y recuperaremos todo el tiempo que ahora estamos perdiendo».</p>
   </section>
 
-  <!-- FOTO FINAL -->
+  <!-- FOTO 2 -->
   <section class="block" style="padding-top:0">
     <div class="photo-slot">
       <img src="foto-2.jpg" alt="Nosotros"
@@ -785,9 +769,9 @@ section.block{
   <!-- SECCIÓN 6: MENSAJE FINAL -->
   <section class="final-block">
     <div class="heart-glow" aria-hidden="true"></div>
-    <p class="final-text">Si pudiera volver a aquel aula y sentarme otra vez a tu lado sin saber todo lo que vendría después, lo haría sin pensarlo.
+    <p class="final-text">Si pudiera volver a aquel salón, sentarme a tu lado y no saber todo lo que vendría después... lo haría sin dudarlo.
 
-Porque terminar conociéndote de esta manera ha sido lo más maravilloso que me ha pasado.
+Porque antes de enamorarme de ti, tuve la suerte de conocerte, de hacerte mi mejor amiga y de crecer contigo.
 
 Te amo muchísimo, mi niña preciosa.
 
@@ -805,9 +789,9 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
   </div>
 </div>
 
-<!-- MÚSICA -->
+<!-- MÚSICA (Asegúrate de subir musica.mp3 a GitHub) -->
 <button id="music-toggle" class="music-toggle" aria-label="Activar o silenciar música" title="Activar música">♪</button>
-<audio id="bg-music" loop preload="none">
+<audio id="bg-music" loop preload="auto">
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
@@ -1005,11 +989,20 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     audioEnabled = !audioEnabled;
     if (audioEnabled) {
       ensureCtx();
+      // Si el audio no carga, avisamos en consola por si falta musica.mp3
       const p = audio.play();
-      if (p && p.catch) p.catch(() => {});
-      musicBtn.classList.add('playing');
-      musicBtn.textContent = '♪';
-      musicBtn.title = 'Silenciar';
+      if (p !== undefined) {
+        p.then(() => {
+          musicBtn.classList.add('playing');
+          musicBtn.textContent = '♪';
+          musicBtn.title = 'Silenciar';
+        }).catch(error => {
+          console.log('Error al reproducir. Asegúrate de haber subido musica.mp3 a GitHub.', error);
+          musicBtn.textContent = '❌';
+          musicBtn.title = 'Falta musica.mp3';
+          audioEnabled = false;
+        });
+      }
     } else {
       audio.pause();
       musicBtn.classList.remove('playing');
@@ -1018,13 +1011,8 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     }
   });
 
-  audio.addEventListener('error', () => {
-    musicBtn.style.opacity = '0.45';
-    musicBtn.title = 'Añade musica.mp3 para activar la música';
-  });
-
   console.log('%c💙 Para Lala — hecho con cariño', 'color:#93c5fd;font-size:13px');
 })();
 </script>
 </body>
-</html>
+       </html>
