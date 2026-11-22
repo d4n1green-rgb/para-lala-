@@ -616,7 +616,7 @@ section.block{
       <div class="tl-item">
         <div class="tl-date">Secundaria</div>
         <h3 class="tl-title">Dos desconocidos en el mismo salón</h3>
-        <p class="tl-text">Nos veíamos todos los días, compartíamos pasillos y clases, pero apenas cruzaba palabra contigo. Eramos dos mundos distintos en el mismo lugar. Si en ese entonces alguien me hubiera dicho todo lo que ibas a significar para mí, me habría reído. xd</p>
+        <p class="tl-text">Nos veíamos todos los días, compartíamos pasillos y clases, pero apenas cruzaba palabra contigo. Éramos dos mundos distintos en el mismo lugar. Si en ese entonces alguien me hubiera dicho todo lo que ibas a significar para mí, me habría reído. xd</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">11.º grado</div>
@@ -626,7 +626,7 @@ section.block{
       <div class="tl-item">
         <div class="tl-date">16 años</div>
         <h3 class="tl-title">La confianza que lo cambió todo</h3>
-        <p class="tl-text">Teníamos 16 años. Eramos inseparables de verdad. Las risas, las conversaciones largas, la complicidad... Empezamos a construir algo que ni yo mismo sabía nombrar en ese momento, pero que se sentía increíble.</p>
+        <p class="tl-text">Teníamos 16 años. Éramos inseparables de verdad. Las risas, las conversaciones largas, la complicidad... Empezamos a construir algo que ni yo mismo sabía nombrar en ese momento, pero que se sentía increíble.</p>
       </div>
       <div class="tl-item">
         <div class="tl-date">Servicio militar</div>
@@ -730,7 +730,7 @@ section.block{
     </div>
 
     <div class="letter" id="letter">
-      <p>Mi Lala,</p>
+      <p>Mi Vida 🖤</p>
       <p>Hoy cumplimos dos años, y me puse a pensar en todas las vueltas que da la vida. Si a ese chamaquito de secundaria que apenas hablaba contigo me le hubieran dicho que hoy estaría escribiéndote esto, con todo lo que siento, probablemente se habría muerto de risa. xd</p>
       <p>Pero la vida es curiosa. Nos puso en el mismo salón, con Nelson sentándonos juntos en Matemáticas, y ahí empezó nuestra historia. Pasamos de ser dos desconocidos a ser uña y carne. Te volviste mi mejor amiga, mi confidente, mi lugar seguro.</p>
       <p>Luego vino el servicio militar, el silencio, la universidad y ese reencuentro que me abrió los ojos. Fue ahí cuando me di cuenta de que todo lo que sentía por ti iba mucho más allá de una amistad. Y llegó el 14 de noviembre de 2024. Los nervios me comían vivo, pero no había vuelta atrás. Tenía que decirte la verdad.</p>
@@ -739,7 +739,7 @@ section.block{
       <p>Pero la distancia es geográfica, no del corazón. Esto no es un punto final para nosotros, es solo un capítulo complicado que estamos escribiendo. Y te prometo que nos vamos a volver a encontrar, y que cuando eso pase, vamos a recuperar cada segundo perdido.</p>
       <p>Gracias por haber sido mi mejor amiga antes que cualquier otra cosa. Gracias por los recuerdos, por la paciencia, por el cariño y por dejarme formar parte de tu vida. Si pudiera volver al pasado, me sentaría otra vez en aquel pupitre a tu lado sin dudarlo un segundo, porque conocerte ha sido lo mejor que me ha pasado.</p>
       <p>Te amo muchísimo, mi niña preciosa. Feliz aniversario.</p>
-      <p class="signature">Tu niño. 💙</p>
+      <p class="signature">Tu Angel 🤍</p>
     </div>
   </section>
 
@@ -789,7 +789,7 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
   </div>
 </div>
 
-<!-- MÚSICA (Asegúrate de subir musica.mp3 a GitHub) -->
+<!-- MÚSICA -->
 <button id="music-toggle" class="music-toggle" aria-label="Activar o silenciar música" title="Activar música">♪</button>
 <audio id="bg-music" loop preload="auto">
   <source src="musica.mp3" type="audio/mpeg">
@@ -952,58 +952,38 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
   });
 
-  /* ---------- AUDIO ---------- */
+  /* ---------- AUDIO (MEJORADO) ---------- */
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
-  let audioEnabled = false;
-  let audioCtx = null;
 
-  function ensureCtx() {
-    if (!audioCtx) {
-      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-      catch (e) { audioCtx = null; }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  }
-
-  function playClick() {
-    if (!audioEnabled || prefersReduced) return;
-    ensureCtx();
-    if (!audioCtx) return;
-    try {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.connect(g); g.connect(audioCtx.destination);
-      o.frequency.value = 880;
-      o.type = 'sine';
-      const now = audioCtx.currentTime;
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.04, now + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
-      o.start(now);
-      o.stop(now + 0.3);
-    } catch (e) {}
-  }
+  // Detectar si el archivo de audio falla (ej. falta en el servidor o ruta incorrecta)
+  audio.addEventListener('error', (e) => {
+    console.error("Error de audio: No se pudo cargar 'musica.mp3'.", e);
+    musicBtn.textContent = '❌';
+    musicBtn.title = 'Error: falta musica.mp3';
+    musicBtn.style.opacity = '0.5';
+  });
 
   musicBtn.addEventListener('click', () => {
-    audioEnabled = !audioEnabled;
-    if (audioEnabled) {
-      ensureCtx();
-      // Si el audio no carga, avisamos en consola por si falta musica.mp3
-      const p = audio.play();
-      if (p !== undefined) {
-        p.then(() => {
+    if (audio.paused) {
+      // Intentar reproducir
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // Se reprodujo correctamente
           musicBtn.classList.add('playing');
           musicBtn.textContent = '♪';
           musicBtn.title = 'Silenciar';
         }).catch(error => {
-          console.log('Error al reproducir. Asegúrate de haber subido musica.mp3 a GitHub.', error);
+          // El navegador bloqueó el audio o hubo un error
+          console.error("No se pudo reproducir. Verifica que 'musica.mp3' exista en la misma ruta que index.html.", error);
+          alert("No se pudo reproducir la música. Asegúrate de que el archivo se llame exactamente 'musica.mp3' y esté en GitHub.");
           musicBtn.textContent = '❌';
-          musicBtn.title = 'Falta musica.mp3';
-          audioEnabled = false;
         });
       }
     } else {
+      // Pausar
       audio.pause();
       musicBtn.classList.remove('playing');
       musicBtn.textContent = '🔇';
@@ -1015,4 +995,4 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 })();
 </script>
 </body>
-       </html>
+   </html>
