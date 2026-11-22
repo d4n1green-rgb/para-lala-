@@ -357,11 +357,12 @@ section.block{
 .message-item.visible{opacity:1;transform:translateX(0)}
 
 /* ============================================================
-   SOBRE + CARTA
+   SOBRE + CARTA (LÓGICA RESTAURADA)
    ============================================================ */
 .envelope-wrap{
   display:flex;flex-direction:column;align-items:center;
   gap:1.5rem;margin-top:1rem;
+  cursor: pointer; /* Toda la zona es clickeable */
 }
 .envelope {
   width: 220px; 
@@ -369,15 +370,10 @@ section.block{
   background: linear-gradient(135deg, var(--violet-deep), var(--violet));
   border-radius: 10px;
   position: relative; 
-  cursor: pointer;
   box-shadow: 0 10px 40px rgba(139,92,246,.4);
   transition: transform .3s;
-  border: none;
-  padding: 0;
-  -webkit-appearance: none;
-  appearance: none;
 }
-.envelope:hover { transform: scale(1.03); }
+.envelope-wrap:hover .envelope { transform: scale(1.03); }
 .envelope::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:0;
@@ -407,35 +403,36 @@ section.block{
   text-align:center;
 }
 
-/* CARTA */
-.letter {
-  background: linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  margin-top: 1.5rem;
-  padding: 2rem 1.5rem;
-  /* display se maneja con JS para evitar fallos */
-  display: none; 
-  opacity: 0;
-  transition: opacity 0.8s ease;
+/* CARTA RESTAURADA CON MAX-HEIGHT (A PRUEBA DE ANDROID) */
+.letter{
+  background:linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:0 1.5rem;
+  margin-top:1.5rem;
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height 1.2s ease,opacity 1s ease,padding 1.2s ease;
 }
-.letter.open {
-  display: block; 
-  opacity: 1;
+.letter.open{
+  max-height:8000px; /* Altura enorme para que quepa todo */
+  opacity:1;
+  padding:2rem 1.5rem;
 }
-.letter p {
-  font-family: var(--font-serif);
-  font-size: 1rem; line-height: 1.85;
-  color: var(--text);
-  margin-bottom: 1.1rem;
-  font-style: italic;
+.letter p{
+  font-family:var(--font-serif);
+  font-size:1rem;line-height:1.85;
+  color:var(--text);
+  margin-bottom:1.1rem;
+  font-style:italic;
 }
-.letter p:last-child { margin-bottom: 0; }
-.letter .signature {
-  text-align: right;
-  color: var(--lavender);
-  margin-top: 1.5rem;
-  font-style: italic;
+.letter p:last-child{margin-bottom:0}
+.letter .signature{
+  text-align:right;
+  color:var(--lavender);
+  margin-top:1.5rem;
+  font-style:italic;
 }
 
 /* ============================================================
@@ -733,11 +730,13 @@ section.block{
     <h2 class="section-title">Una carta para ti</h2>
     <p class="section-subtitle">Toca el sobre, mi niña.</p>
 
-    <div class="envelope-wrap">
-      <button type="button" class="envelope" id="envelope" aria-label="Abrir carta"></button>
+    <!-- Hacemos que todo este bloque reciba el clic para facilitar la interacción -->
+    <div class="envelope-wrap" id="envelope-wrap">
+      <div class="envelope" id="envelope"></div>
       <p class="envelope-hint">Toca el sobre para abrirlo 💙</p>
     </div>
 
+    <!-- CARTA -->
     <div class="letter" id="letter">
       <p>Mi Vida 🖤</p>
       <p>Hoy cumplimos dos años, y me puse a pensar en todas las vueltas que da la vida. Si a ese chamaquito de secundaria que apenas hablaba contigo me le hubieran dicho que hoy estaría escribiéndote esto, con todo lo que siento, probablemente se habría muerto de risa. xd</p>
@@ -923,7 +922,8 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
-  /* ---------- SOBRE + CARTA (A PRUEBA DE FALLOS) ---------- */
+  /* ---------- SOBRE + CARTA (LÓGICA CORRECTA) ---------- */
+  const envelopeWrap = document.getElementById('envelope-wrap');
   const envelope = document.getElementById('envelope');
   const letter = document.getElementById('letter');
   const confettiBox = document.getElementById('confetti');
@@ -947,22 +947,24 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 
   function openEnvelope() {
     if (envelope.classList.contains('open')) return;
+    
+    // Abre la solapa del sobre
     envelope.classList.add('open');
+    
     playClick();
     launchConfetti(35);
-
-    // FORZAMOS LA APARICIÓN DE LA CARTA CON JAVASCRIPT PURO
-    // Esto ignora si el CSS se cargó bien o está en caché
-    letter.style.display = 'block';
     
-    // Pequeño retraso para que el navegador procese el display:block y haga la transición
+    // Abre la carta (usa la clase CSS para animar max-height y opacity de forma segura)
+    letter.classList.add('open');
+    
+    // Baja la pantalla suavemente después de que termine la animación de la carta
     setTimeout(() => {
-      letter.style.opacity = '1';
       letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
+    }, 800);
   }
 
-  envelope.addEventListener('click', openEnvelope);
+  // Escuchamos el clic en todo el contenedor (sobre + texto) para que sea más fácil de tocar
+  envelopeWrap.addEventListener('click', openEnvelope);
 
   /* ---------- AUDIO ---------- */
   const audio = document.getElementById('bg-music');
@@ -1000,4 +1002,4 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 })();
 </script>
 </body>
-         </html>
+           </html>
