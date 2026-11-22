@@ -357,14 +357,12 @@ section.block{
 .message-item.visible{opacity:1;transform:translateX(0)}
 
 /* ============================================================
-   SOBRE + CARTA (LÓGICA 100% ARREGLADA)
+   SOBRE + CARTA
    ============================================================ */
 .envelope-wrap{
   display:flex;flex-direction:column;align-items:center;
   gap:1.5rem;margin-top:1rem;
 }
-
-/* Botón del sobre libre de bloqueos */
 .envelope {
   width: 220px; 
   height: 150px;
@@ -390,7 +388,7 @@ section.block{
   transform-origin:top;
   transition:transform .8s ease;
   z-index:2;
-  pointer-events: none; /* Evita que la solapa bloquee el toque */
+  pointer-events: none;
 }
 .envelope::after {
   content:'💙';
@@ -398,7 +396,7 @@ section.block{
   transform:translate(-50%,-50%);
   font-size:1.5rem; z-index:3;
   transition:opacity .4s;
-  pointer-events: none; /* Evita que el corazón bloquee el toque */
+  pointer-events: none;
 }
 .envelope.open::before { transform: rotateX(180deg); }
 .envelope.open::after { opacity: 0; }
@@ -409,19 +407,20 @@ section.block{
   text-align:center;
 }
 
-/* Carta con visualización garantizada */
+/* CARTA */
 .letter {
   background: linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   margin-top: 1.5rem;
   padding: 2rem 1.5rem;
-  display: none; /* Oculto por defecto */
+  /* display se maneja con JS para evitar fallos */
+  display: none; 
   opacity: 0;
   transition: opacity 0.8s ease;
 }
 .letter.open {
-  display: block; /* Se muestra de golpe sin fallar en Android */
+  display: block; 
   opacity: 1;
 }
 .letter p {
@@ -924,7 +923,7 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
-  /* ---------- SOBRE + CARTA (LÓGICA ARREGLADA) ---------- */
+  /* ---------- SOBRE + CARTA (A PRUEBA DE FALLOS) ---------- */
   const envelope = document.getElementById('envelope');
   const letter = document.getElementById('letter');
   const confettiBox = document.getElementById('confetti');
@@ -951,21 +950,19 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     envelope.classList.add('open');
     playClick();
     launchConfetti(35);
+
+    // FORZAMOS LA APARICIÓN DE LA CARTA CON JAVASCRIPT PURO
+    // Esto ignora si el CSS se cargó bien o está en caché
+    letter.style.display = 'block';
     
-    // Abre la carta inmediatamente
-    letter.classList.add('open');
-    
-    // Scroll suave para que la carta quede centrada después de abrirse
+    // Pequeño retraso para que el navegador procese el display:block y haga la transición
     setTimeout(() => {
+      letter.style.opacity = '1';
       letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+    }, 50);
   }
-  
+
   envelope.addEventListener('click', openEnvelope);
-  envelope.addEventListener('touchstart', function(e) {
-    e.preventDefault(); // Previene comportamientos extraños en pantallas táctiles
-    openEnvelope();
-  }, {passive: false});
 
   /* ---------- AUDIO ---------- */
   const audio = document.getElementById('bg-music');
@@ -1003,4 +1000,4 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 })();
 </script>
 </body>
-       </html>
+         </html>
