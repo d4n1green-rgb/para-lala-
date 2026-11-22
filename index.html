@@ -357,7 +357,7 @@ section.block{
 .message-item.visible{opacity:1;transform:translateX(0)}
 
 /* ============================================================
-   SOBRE + CARTA
+   SOBRE + CARTA (CORREGIDO)
    ============================================================ */
 .envelope-wrap{
   display:flex;flex-direction:column;align-items:center;
@@ -397,17 +397,21 @@ section.block{
   font-size:.85rem;font-style:italic;
   text-align:center;
 }
+
+/* CARTA CORREGIDA PARA QUE NO FALLE EN ANDROID */
 .letter{
   background:linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
   border:1px solid var(--glass-border);
   border-radius:16px;
-  padding:0 1.5rem;
   margin-top:1.5rem;
-  max-height:0;overflow:hidden;opacity:0;
-  transition:max-height 1.4s ease,opacity .8s ease,padding .8s ease;
+  max-height:0;
+  padding:0 1.5rem;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height 1s ease, opacity .8s ease, padding 1s ease;
 }
 .letter.open{
-  max-height:6000px;
+  max-height:5000px;
   opacity:1;
   padding:2rem 1.5rem;
 }
@@ -417,10 +421,7 @@ section.block{
   color:var(--text);
   margin-bottom:1.1rem;
   font-style:italic;
-  opacity:0;
-  transition:opacity .6s ease;
 }
-.letter.open p{opacity:1}
 .letter p:last-child{margin-bottom:0}
 .letter .signature{
   text-align:right;
@@ -914,7 +915,7 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
-  /* ---------- SOBRE + CARTA ---------- */
+  /* ---------- SOBRE + CARTA (LÓGICA ARREGLADA) ---------- */
   const envelope = document.getElementById('envelope');
   const letter = document.getElementById('letter');
   const confettiBox = document.getElementById('confetti');
@@ -941,22 +942,25 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     envelope.classList.add('open');
     playClick();
     launchConfetti(35);
-    const paras = letter.querySelectorAll('p');
-    paras.forEach((p, i) => {
-      p.style.transitionDelay = (i * 0.22) + 's';
-    });
-    setTimeout(() => letter.classList.add('open'), 500);
+    
+    // Abrimos la carta inmediatamente para evitar bugs
+    letter.classList.add('open');
+    
+    // Hacemos un scroll suave para que ella vea la carta abrirse
+    setTimeout(() => {
+      letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
   }
+  
   envelope.addEventListener('click', openEnvelope);
   envelope.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
   });
 
-  /* ---------- AUDIO (MEJORADO) ---------- */
+  /* ---------- AUDIO ---------- */
   const audio = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
 
-  // Detectar si el archivo de audio falla (ej. falta en el servidor o ruta incorrecta)
   audio.addEventListener('error', (e) => {
     console.error("Error de audio: No se pudo cargar 'musica.mp3'.", e);
     musicBtn.textContent = '❌';
@@ -966,24 +970,18 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 
   musicBtn.addEventListener('click', () => {
     if (audio.paused) {
-      // Intentar reproducir
       const playPromise = audio.play();
-      
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          // Se reprodujo correctamente
           musicBtn.classList.add('playing');
           musicBtn.textContent = '♪';
           musicBtn.title = 'Silenciar';
         }).catch(error => {
-          // El navegador bloqueó el audio o hubo un error
-          console.error("No se pudo reproducir. Verifica que 'musica.mp3' exista en la misma ruta que index.html.", error);
-          alert("No se pudo reproducir la música. Asegúrate de que el archivo se llame exactamente 'musica.mp3' y esté en GitHub.");
+          console.error("No se pudo reproducir.", error);
           musicBtn.textContent = '❌';
         });
       }
     } else {
-      // Pausar
       audio.pause();
       musicBtn.classList.remove('playing');
       musicBtn.textContent = '🔇';
@@ -995,4 +993,4 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 })();
 </script>
 </body>
-   </html>
+         </html>
