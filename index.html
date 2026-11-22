@@ -357,74 +357,21 @@ section.block{
 .message-item.visible{opacity:1;transform:translateX(0)}
 
 /* ============================================================
-   SOBRE + CARTA (LÓGICA RESTAURADA)
+   CARTA (AHORA ES UN BLOQUE FIJO Y VISIBLE)
    ============================================================ */
-.envelope-wrap{
-  display:flex;flex-direction:column;align-items:center;
-  gap:1.5rem;margin-top:1rem;
-  cursor: pointer; /* Toda la zona es clickeable */
-}
-.envelope {
-  width: 220px; 
-  height: 150px;
-  background: linear-gradient(135deg, var(--violet-deep), var(--violet));
-  border-radius: 10px;
-  position: relative; 
-  box-shadow: 0 10px 40px rgba(139,92,246,.4);
-  transition: transform .3s;
-}
-.envelope-wrap:hover .envelope { transform: scale(1.03); }
-.envelope::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0; height:0;
-  border-left:110px solid transparent;
-  border-right:110px solid transparent;
-  border-top:75px solid rgba(107,70,193,.9);
-  border-radius:10px 10px 0 0;
-  transform-origin:top;
-  transition:transform .8s ease;
-  z-index:2;
-  pointer-events: none;
-}
-.envelope::after {
-  content:'💙';
-  position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  font-size:1.5rem; z-index:3;
-  transition:opacity .4s;
-  pointer-events: none;
-}
-.envelope.open::before { transform: rotateX(180deg); }
-.envelope.open::after { opacity: 0; }
-
-.envelope-hint{
-  color:var(--text-dim);
-  font-size:.85rem;font-style:italic;
-  text-align:center;
-}
-
-/* CARTA RESTAURADA CON MAX-HEIGHT (A PRUEBA DE ANDROID) */
 .letter{
   background:linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
   border:1px solid var(--glass-border);
   border-radius:16px;
-  padding:0 1.5rem;
-  margin-top:1.5rem;
-  max-height:0;
-  overflow:hidden;
-  opacity:0;
-  transition:max-height 1.2s ease,opacity 1s ease,padding 1.2s ease;
-}
-.letter.open{
-  max-height:8000px; /* Altura enorme para que quepa todo */
-  opacity:1;
   padding:2rem 1.5rem;
+  margin-top:1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .letter p{
   font-family:var(--font-serif);
-  font-size:1rem;line-height:1.85;
+  font-size:1.05rem;line-height:1.85;
   color:var(--text);
-  margin-bottom:1.1rem;
+  margin-bottom:1.2rem;
   font-style:italic;
 }
 .letter p:last-child{margin-bottom:0}
@@ -433,6 +380,7 @@ section.block{
   color:var(--lavender);
   margin-top:1.5rem;
   font-style:italic;
+  font-size:1.1rem;
 }
 
 /* ============================================================
@@ -545,26 +493,6 @@ section.block{
 }
 
 /* ============================================================
-   CONFETI
-   ============================================================ */
-.confetti{
-  position:fixed;inset:0;
-  pointer-events:none;
-  z-index:99;
-  overflow:hidden;
-}
-.confetti-piece{
-  position:absolute;top:0;
-  width:8px;height:12px;
-  opacity:0;
-  animation:confettiFall linear forwards;
-}
-@keyframes confettiFall{
-  0%{opacity:1;transform:translateY(-10vh) rotate(0)}
-  100%{opacity:0;transform:translateY(110vh) rotate(720deg)}
-}
-
-/* ============================================================
    MOVIMIENTO REDUCIDO
    ============================================================ */
 @media (prefers-reduced-motion: reduce){
@@ -589,7 +517,6 @@ section.block{
 
 <canvas id="stars" aria-hidden="true"></canvas>
 <div class="particles" id="particles" aria-hidden="true"></div>
-<div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <!-- SPLASH -->
 <section id="splash" class="screen splash active">
@@ -725,19 +652,12 @@ section.block{
     </div>
   </section>
 
-  <!-- SECCIÓN 4: CARTA -->
+  <!-- SECCIÓN 4: CARTA (VISIBLE DIRECTAMENTE) -->
   <section class="block">
     <h2 class="section-title">Una carta para ti</h2>
-    <p class="section-subtitle">Toca el sobre, mi niña.</p>
+    <p class="section-subtitle">Unas palabras que quería que leyeras con calma.</p>
 
-    <!-- Hacemos que todo este bloque reciba el clic para facilitar la interacción -->
-    <div class="envelope-wrap" id="envelope-wrap">
-      <div class="envelope" id="envelope"></div>
-      <p class="envelope-hint">Toca el sobre para abrirlo 💙</p>
-    </div>
-
-    <!-- CARTA -->
-    <div class="letter" id="letter">
+    <div class="letter">
       <p>Mi Vida 🖤</p>
       <p>Hoy cumplimos dos años, y me puse a pensar en todas las vueltas que da la vida. Si a ese chamaquito de secundaria que apenas hablaba contigo me le hubieran dicho que hoy estaría escribiéndote esto, con todo lo que siento, probablemente se habría muerto de risa. xd</p>
       <p>Pero la vida es curiosa. Nos puso en el mismo salón, con Nelson sentándonos juntos en Matemáticas, y ahí empezó nuestra historia. Pasamos de ser dos desconocidos a ser uña y carne. Te volviste mi mejor amiga, mi confidente, mi lugar seguro.</p>
@@ -921,50 +841,6 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
-
-  /* ---------- SOBRE + CARTA (LÓGICA CORRECTA) ---------- */
-  const envelopeWrap = document.getElementById('envelope-wrap');
-  const envelope = document.getElementById('envelope');
-  const letter = document.getElementById('letter');
-  const confettiBox = document.getElementById('confetti');
-  const colors = ['#f0abfc', '#c4b5fd', '#a78bfa', '#93c5fd', '#ffffff'];
-
-  function launchConfetti(n) {
-    if (prefersReduced) return;
-    for (let i = 0; i < n; i++) {
-      const p = document.createElement('div');
-      p.className = 'confetti-piece';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.background = colors[Math.floor(Math.random() * colors.length)];
-      p.style.animationDuration = (2 + Math.random() * 2.2) + 's';
-      p.style.animationDelay = (Math.random() * 0.5) + 's';
-      p.style.width = (6 + Math.random() * 6) + 'px';
-      p.style.height = (8 + Math.random() * 8) + 'px';
-      confettiBox.appendChild(p);
-      setTimeout(() => p.remove(), 5200);
-    }
-  }
-
-  function openEnvelope() {
-    if (envelope.classList.contains('open')) return;
-    
-    // Abre la solapa del sobre
-    envelope.classList.add('open');
-    
-    playClick();
-    launchConfetti(35);
-    
-    // Abre la carta (usa la clase CSS para animar max-height y opacity de forma segura)
-    letter.classList.add('open');
-    
-    // Baja la pantalla suavemente después de que termine la animación de la carta
-    setTimeout(() => {
-      letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 800);
-  }
-
-  // Escuchamos el clic en todo el contenedor (sobre + texto) para que sea más fácil de tocar
-  envelopeWrap.addEventListener('click', openEnvelope);
 
   /* ---------- AUDIO ---------- */
   const audio = document.getElementById('bg-music');
