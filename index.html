@@ -357,24 +357,32 @@ section.block{
 .message-item.visible{opacity:1;transform:translateX(0)}
 
 /* ============================================================
-   SOBRE + CARTA (CORREGIDO)
+   SOBRE + CARTA (LÓGICA 100% ARREGLADA)
    ============================================================ */
 .envelope-wrap{
   display:flex;flex-direction:column;align-items:center;
   gap:1.5rem;margin-top:1rem;
 }
-.envelope{
-  width:220px;height:150px;
-  background:linear-gradient(135deg,var(--violet-deep),var(--violet));
-  border-radius:10px;
-  position:relative;cursor:pointer;
-  box-shadow:0 10px 40px rgba(139,92,246,.4);
-  transition:transform .3s;
+
+/* Botón del sobre libre de bloqueos */
+.envelope {
+  width: 220px; 
+  height: 150px;
+  background: linear-gradient(135deg, var(--violet-deep), var(--violet));
+  border-radius: 10px;
+  position: relative; 
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(139,92,246,.4);
+  transition: transform .3s;
+  border: none;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
 }
-.envelope:hover{transform:scale(1.03)}
-.envelope::before{
+.envelope:hover { transform: scale(1.03); }
+.envelope::before {
   content:'';
-  position:absolute;top:0;left:0;right:0;height:0;
+  position:absolute; top:0; left:0; right:0; height:0;
   border-left:110px solid transparent;
   border-right:110px solid transparent;
   border-top:75px solid rgba(107,70,193,.9);
@@ -382,52 +390,53 @@ section.block{
   transform-origin:top;
   transition:transform .8s ease;
   z-index:2;
+  pointer-events: none; /* Evita que la solapa bloquee el toque */
 }
-.envelope::after{
+.envelope::after {
   content:'💙';
-  position:absolute;top:50%;left:50%;
+  position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
-  font-size:1.5rem;z-index:3;
+  font-size:1.5rem; z-index:3;
   transition:opacity .4s;
+  pointer-events: none; /* Evita que el corazón bloquee el toque */
 }
-.envelope.open::before{transform:rotateX(180deg)}
-.envelope.open::after{opacity:0}
+.envelope.open::before { transform: rotateX(180deg); }
+.envelope.open::after { opacity: 0; }
+
 .envelope-hint{
   color:var(--text-dim);
   font-size:.85rem;font-style:italic;
   text-align:center;
 }
 
-/* CARTA CORREGIDA PARA QUE NO FALLE EN ANDROID */
-.letter{
-  background:linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
-  border:1px solid var(--glass-border);
-  border-radius:16px;
-  margin-top:1.5rem;
-  max-height:0;
-  padding:0 1.5rem;
-  overflow:hidden;
-  opacity:0;
-  transition:max-height 1s ease, opacity .8s ease, padding 1s ease;
+/* Carta con visualización garantizada */
+.letter {
+  background: linear-gradient(135deg,rgba(245,243,255,.05),rgba(196,181,253,.03));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  margin-top: 1.5rem;
+  padding: 2rem 1.5rem;
+  display: none; /* Oculto por defecto */
+  opacity: 0;
+  transition: opacity 0.8s ease;
 }
-.letter.open{
-  max-height:5000px;
-  opacity:1;
-  padding:2rem 1.5rem;
+.letter.open {
+  display: block; /* Se muestra de golpe sin fallar en Android */
+  opacity: 1;
 }
-.letter p{
-  font-family:var(--font-serif);
-  font-size:1rem;line-height:1.85;
-  color:var(--text);
-  margin-bottom:1.1rem;
-  font-style:italic;
+.letter p {
+  font-family: var(--font-serif);
+  font-size: 1rem; line-height: 1.85;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+  font-style: italic;
 }
-.letter p:last-child{margin-bottom:0}
-.letter .signature{
-  text-align:right;
-  color:var(--lavender);
-  margin-top:1.5rem;
-  font-style:italic;
+.letter p:last-child { margin-bottom: 0; }
+.letter .signature {
+  text-align: right;
+  color: var(--lavender);
+  margin-top: 1.5rem;
+  font-style: italic;
 }
 
 /* ============================================================
@@ -726,7 +735,7 @@ section.block{
     <p class="section-subtitle">Toca el sobre, mi niña.</p>
 
     <div class="envelope-wrap">
-      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Abrir carta"></div>
+      <button type="button" class="envelope" id="envelope" aria-label="Abrir carta"></button>
       <p class="envelope-hint">Toca el sobre para abrirlo 💙</p>
     </div>
 
@@ -943,19 +952,20 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
     playClick();
     launchConfetti(35);
     
-    // Abrimos la carta inmediatamente para evitar bugs
+    // Abre la carta inmediatamente
     letter.classList.add('open');
     
-    // Hacemos un scroll suave para que ella vea la carta abrirse
+    // Scroll suave para que la carta quede centrada después de abrirse
     setTimeout(() => {
       letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
+    }, 100);
   }
   
   envelope.addEventListener('click', openEnvelope);
-  envelope.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
-  });
+  envelope.addEventListener('touchstart', function(e) {
+    e.preventDefault(); // Previene comportamientos extraños en pantallas táctiles
+    openEnvelope();
+  }, {passive: false});
 
   /* ---------- AUDIO ---------- */
   const audio = document.getElementById('bg-music');
@@ -993,4 +1003,4 @@ Felices dos de muchos años que celebraremos estar juntos, mi vida. 💙</p>
 })();
 </script>
 </body>
-         </html>
+       </html>
